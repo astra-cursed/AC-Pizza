@@ -1,4 +1,4 @@
-import { hashSync } from "bcrypt";
+import bcrypt from 'bcryptjs';
 import { prisma } from "./prisma-client";
 import { _ingredients, categories, products } from "./constants";
 import { Prisma } from "@prisma/client";
@@ -29,14 +29,14 @@ async function up() {
       {
         fullName: "User Test",
         email: "user@test.ru",
-        password: hashSync("111111", 10),
+        password: bcrypt.hashSync("111111", 10),
         verified: new Date(),
         role: "USER",
       },
       {
         fullName: "Admin Admin",
         email: "admin@test.ru",
-        password: hashSync("111111", 10),
+        password: bcrypt.hashSync("111111", 10),
         verified: new Date(),
         role: "ADMIN",
       },

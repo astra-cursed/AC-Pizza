@@ -6,7 +6,7 @@ import { TCheckoutFormValues } from '@/shared/constants';
 import { createPayment, sendEmail } from '@/shared/lib';
 import { getUserSession } from '@/shared/lib/get-user-session';
 import { OrderStatus, Prisma } from '@prisma/client';
-import { hashSync } from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
 
 export async function createOrder(data: TCheckoutFormValues) {
@@ -138,7 +138,7 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
       data: {
         fullName: body.fullName,
         email: body.email,
-        password: body.password ? hashSync(body.password as string, 10) : findUser?.password,
+        password: body.password ? bcrypt.hashSync(body.password as string, 10) : findUser?.password,
       },
     });
   } catch (err) {
@@ -167,7 +167,7 @@ export async function registerUser(body: Prisma.UserCreateInput) {
       data: {
         fullName: body.fullName,
         email: body.email,
-        password: hashSync(body.password, 10),
+        password: bcrypt.hashSync(body.password, 10),
       },
     });
 
